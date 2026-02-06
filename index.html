@@ -1,217 +1,279 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8">
-<title>For Geet 💖</title>
+<meta charset="UTF-8" />
+<title>For Geet</title>
 
-<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@500;600&family=Inter:wght@300;400&display=swap" rel="stylesheet">
 
 <style>
-*{box-sizing:border-box;}
-
+*{box-sizing:border-box}
+html,body{height:100%}
 body{
 margin:0;
-font-family:'Poppins',sans-serif;
-height:100vh;
 display:flex;
-justify-content:center;
 align-items:center;
-background:linear-gradient(135deg,#ff9a9e,#fad0c4);
+justify-content:center;
+background:
+radial-gradient(1200px 600px at 50% -10%, #3b2433, #0b0b10 55%);
+font-family:Inter,system-ui,-apple-system,sans-serif;
+color:#eee;
 overflow:hidden;
 }
 
-/* floating hearts */
+/* ===== subtle ambient particles ===== */
+.dot{
+position:absolute;width:2px;height:2px;border-radius:50%;
+background:rgba(255,255,255,.5);
+animation:rise linear infinite;
+}
+@keyframes rise{
+from{transform:translateY(110vh);opacity:0}
+50%{opacity:.9}
+to{transform:translateY(-10vh);opacity:0}
+}
+
+/* ===== love burst ===== */
 .heart{
-position:absolute;
-font-size:20px;
-animation:float 6s linear infinite;
-opacity:0.6;
+position:absolute;font-size:18px;pointer-events:none;
+animation:heart 900ms ease forwards;
+filter:drop-shadow(0 8px 16px rgba(255,79,139,.5));
 }
-@keyframes float{
-0%{transform:translateY(100vh) scale(0.5);opacity:0;}
-50%{opacity:0.8;}
-100%{transform:translateY(-10vh) scale(1.2);opacity:0;}
+@keyframes heart{
+0%{transform:translate(-50%,-50%) scale(.6);opacity:0}
+30%{opacity:1}
+100%{transform:translate(-50%,-120%) scale(1.2);opacity:0}
 }
 
-/* popup card */
-.popup{
-background:rgba(255,255,255,0.85);
-backdrop-filter:blur(15px);
-padding:35px 30px;
+/* ===== card ===== */
+.card{
+width:min(92vw,380px);
+padding:36px 34px;
 border-radius:28px;
-max-width:360px;
+background:rgba(255,255,255,.08);
+backdrop-filter:blur(22px);
+box-shadow:
+0 40px 90px rgba(0,0,0,.65),
+inset 0 0 0 1px rgba(255,255,255,.08);
+animation:enter .9s cubic-bezier(.2,.8,.2,1);
 text-align:center;
-box-shadow:0 25px 60px rgba(0,0,0,0.25);
-animation:enter 0.6s ease;
+}
+@keyframes enter{
+from{opacity:0;transform:translateY(26px) scale(.96)}
+to{opacity:1;transform:none}
 }
 
-@keyframes enter{
-from{transform:translateY(30px) scale(0.9);opacity:0;}
-to{transform:translateY(0) scale(1);opacity:1;}
+/* slide animation on step change */
+.slide-in{
+animation:slide .7s cubic-bezier(.2,.8,.2,1);
+}
+@keyframes slide{
+from{opacity:0;transform:translateX(22px)}
+to{opacity:1;transform:none}
 }
 
 h2{
-color:#ff4d88;
-margin-bottom:10px;
+font-family:"Playfair Display",serif;
+margin:0 0 12px;
+color:#ffd6e6;
+}
+p{font-size:15px;line-height:1.7;color:#ddd}
+
+.btn{
+margin-top:22px;
+padding:12px 30px;border:none;border-radius:999px;
+font-size:14px;letter-spacing:.3px;cursor:pointer;
+transition:.3s;
+}
+.primary{
+background:linear-gradient(135deg,#ff4f8b,#ff9fbf);
+color:#121212;
+box-shadow:0 14px 36px rgba(255,79,139,.45);
+}
+.primary:hover{transform:translateY(-2px)}
+.ghost{
+background:transparent;border:1px solid rgba(255,255,255,.28);
+color:#eee;margin-left:10px;position:relative;
 }
 
-p{
-color:#444;
-line-height:1.6;
-font-size:15px;
+/* password */
+.input{
+width:100%;
+margin-top:14px;
+padding:12px 14px;border-radius:14px;
+border:1px solid rgba(255,255,255,.25);
+background:rgba(0,0,0,.2);color:#fff;
+outline:none;
+}
+.hint{font-size:12px;color:#aaa;margin-top:8px}
+
+.signature{
+margin-top:26px;
+font-family:"Playfair Display",serif;
+font-size:17px;color:#ff9fbf;
 }
 
-button{
-margin-top:18px;
-padding:12px 28px;
-border:none;
-border-radius:30px;
-font-size:15px;
-cursor:pointer;
-transition:all 0.3s ease;
-}
-
-button:hover{transform:scale(1.05);}
-
-.next,.yes{
-background:linear-gradient(135deg,#ff4d88,#ff7eb3);
-color:white;
-box-shadow:0 10px 20px rgba(255,77,136,0.4);
-}
-
-.no{
-background:#eee;
-position:relative;
-}
-
-/* music button */
-.music{
-position:fixed;
-bottom:20px;
-right:20px;
-background:white;
-border-radius:50%;
-width:45px;
-height:45px;
-display:flex;
-align-items:center;
-justify-content:center;
-cursor:pointer;
-box-shadow:0 10px 25px rgba(0,0,0,0.2);
-font-size:18px;
+/* swipe hint */
+.swipe{
+position:fixed;bottom:14px;left:50%;
+transform:translateX(-50%);
+font-size:12px;color:#bbb;opacity:.8;
 }
 </style>
 </head>
 
 <body>
 
-<div id="box" class="popup"></div>
-
-<div class="music" onclick="toggleMusic()">🎵</div>
-
-<audio id="bgm" loop>
-<source src="https://cdn.pixabay.com/download/audio/2022/03/15/audio_3cfa6d27db.mp3?filename=romantic-ambient-112191.mp3">
-</audio>
+<div id="card" class="card"></div>
+<div class="swipe">Swipe / Click to continue</div>
 
 <script>
+/* ===== ambient dots ===== */
+for(let i=0;i<42;i++){
+ const d=document.createElement('div');
+ d.className='dot';
+ d.style.left=Math.random()*100+'vw';
+ d.style.animationDuration=(6+Math.random()*10)+'s';
+ d.style.animationDelay=Math.random()*5+'s';
+ document.body.appendChild(d);
+}
+
+/* ===== love effects on every slide ===== */
+function loveBurst(x=window.innerWidth/2,y=window.innerHeight/2){
+ for(let i=0;i<7;i++){
+  const h=document.createElement('div');
+  h.className='heart';
+  h.textContent=['💖','💘','💗'][Math.floor(Math.random()*3)];
+  h.style.left=(x+(Math.random()*60-30))+'px';
+  h.style.top=(y+(Math.random()*20-10))+'px';
+  document.body.appendChild(h);
+  setTimeout(()=>h.remove(),900);
+ }
+}
+
+/* ===== content ===== */
 let step=0;
-let playing=false;
+const card=document.getElementById('card');
 
-const screens=[
+const scenes=[
+/* PASSWORD */
 `
-<h2>Hey Geet 💕</h2>
-<p>
-Ye sirf ek question nahi…<br>
-ek ehsaas hai jo kaafi time se<br>
-dil me chupke se rehta aaya hai 🥺
-</p>
-<button class="next" onclick="next()">Next 💌</button>
+<h2>Before we begin</h2>
+<p><b>Question:</b><br>Sunny ko sabse jyaada khaane me kya pasand hai?</p>
+<input id="ans" class="input" placeholder="Your answer…" />
+<div class="hint">Hint: ek dish 😌</div>
+<button class="btn primary" onclick="check()">Unlock</button>
 `,
-
+/* 1 */
 `
-<h2>✨ Our Beginning</h2>
+<h2>Hello Geet</h2>
 <p>
-Dwarka Sector 21…<br>
-Christmas lights ✨<br>
-thandi hawa ❄️<br><br>
-aur tum —<br>
-wahin mujhe pata chal gaya,<br>
-ye moment special hai.
+This isn’t a question.<br>
+It’s a moment I wanted to create — slowly.
 </p>
-<button class="next" onclick="next()">Next ➡️</button>
+<button class="btn primary" onclick="next()">Continue</button>
 `,
-
+/* 2 */
 `
-<h2>🌄 Our Journey</h2>
+<h2>The First Memory</h2>
 <p>
-Rishikesh ki Ganga 🛕<br>
-Mussoorie ki mist 🌄<br><br>
-har safar tumhare saath,<br>
-ghar jaisa laga.
+Dwarka Sector 21.<br>
+Christmas lights. Winter air.<br><br>
+That quiet realization — <i>this feels different.</i>
 </p>
-<button class="next" onclick="next()">Next ➡️</button>
+<button class="btn primary" onclick="next()">Continue</button>
 `,
-
+/* 3 */
 `
-<h2>🛕 Our Blessing</h2>
+<h2>The Journey</h2>
 <p>
-Krishna Janmabhoomi me tumhare saath,<br>
-sirf shanti nahi mili…<br><br>
-meri har dua ka jawab mila.
+Rishikesh. Mussoorie.<br>
+Roads, silence, conversations.<br><br>
+Everything felt lighter with you.
 </p>
-<button class="next" onclick="next()">Almost there 💖</button>
+<button class="btn primary" onclick="next()">Continue</button>
 `,
-
+/* 4 */
 `
-<h2>Geet… 💘</h2>
-<p style="font-size:17px;"><b>Will you be my Valentine?</b></p>
-<button class="yes" onclick="yes()">Yes 💕</button>
-<button class="no" onmouseover="moveNo()">No 🙈</button>
+<h2>The Moment</h2>
+<p>
+Krishna Janmabhoomi.<br>
+I didn’t ask for signs.<br>
+I already had one.
+</p>
+<button class="btn primary" onclick="next()">One last thing</button>
+`,
+/* 5 */
+`
+<h2>Geet</h2>
+<p style="font-size:17px">
+Would you like to be<br>my Valentine?
+</p>
+<button class="btn primary" onclick="yes()">Yes</button>
+<button class="btn ghost" onmouseover="evade(this)">No</button>
 `
 ];
 
-function next(){
-step++;
-box.innerHTML=screens[step];
+function render(i,evt){
+ card.classList.remove('slide-in');
+ void card.offsetWidth;
+ card.classList.add('slide-in');
+ card.innerHTML=scenes[i];
+ loveBurst(evt?.clientX,evt?.clientY);
 }
 
-function moveNo(){
-const btn=document.querySelector('.no');
-btn.style.left=Math.random()*120+'px';
-btn.style.top=Math.random()*80+'px';
+function check(){
+ const v=(document.getElementById('ans').value||'')
+  .trim().toLowerCase();
+ if(v==='biryani'){
+  step=1; render(step);
+ }else{
+  loveBurst();
+  alert('Wrong 😌 Try again.');
+ }
 }
+
+function next(evt){ render(++step,evt); }
 
 function yes(){
-box.innerHTML=`
-<h2>Yaaayyyy 🥹💖</h2>
-<p>
-From city streets to mountain peaks,<br>
-from holy shrines to forever…<br><br>
-Thank you for being my Valentine 💕
-</p>
-<h3 style="color:#ff4d88;">— Sunny</h3>
-`;
+ render(step);
+ card.innerHTML=`
+ <h2>Thank you</h2>
+ <p>
+ Not for saying yes.<br>
+ But for making every place feel like it mattered.
+ </p>
+ <div class="signature">— Sunny</div>
+ `;
 }
 
-box.innerHTML=screens[0];
-
-/* hearts */
-setInterval(()=>{
-const h=document.createElement("div");
-h.className="heart";
-h.innerText="💖";
-h.style.left=Math.random()*100+"vw";
-h.style.animationDuration=(4+Math.random()*3)+"s";
-document.body.appendChild(h);
-setTimeout(()=>h.remove(),7000);
-},600);
-
-function toggleMusic(){
-const m=document.getElementById("bgm");
-if(!playing){m.play();playing=true;}
-else{m.pause();playing=false;}
+/* playful no */
+function evade(btn){
+ btn.style.left=(Math.random()*120-60)+'px';
+ btn.style.top=(Math.random()*60-30)+'px';
+ loveBurst();
 }
+
+/* ===== swipe support ===== */
+let sx=0, sy=0;
+window.addEventListener('touchstart',e=>{
+ sx=e.touches[0].clientX; sy=e.touches[0].clientY;
+});
+window.addEventListener('touchend',e=>{
+ const dx=e.changedTouches[0].clientX-sx;
+ const dy=e.changedTouches[0].clientY-sy;
+ if(Math.abs(dx)>40 || Math.abs(dy)>40){
+  if(step>0 && step<scenes.length-1) next(e.changedTouches[0]);
+ }
+});
+
+/* click anywhere to advance (after unlock) */
+window.addEventListener('click',e=>{
+ if(step>0 && step<scenes.length-1 && !e.target.closest('button,input')) next(e);
+});
+
+/* init */
+render(0);
 </script>
-
 </body>
 </html>
