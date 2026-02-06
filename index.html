@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>For Geet 💖</title>
+<style>
+body{
+margin:0;
+font-family:'Segoe UI',sans-serif;
+background:linear-gradient(135deg,#ff9a9e,#fad0c4);
+height:100vh;
+display:flex;
+justify-content:center;
+align-items:center;
+overflow:hidden;
+}
+
+.popup{
+background:white;
+padding:30px;
+border-radius:25px;
+max-width:340px;
+text-align:center;
+box-shadow:0 20px 45px rgba(0,0,0,0.25);
+animation:pop 0.4s ease;
+}
+
+@keyframes pop{
+0%{transform:scale(0.5);opacity:0;}
+100%{transform:scale(1);opacity:1;}
+}
+
+h2{color:#ff4d88;}
+p{color:#555; line-height:1.5;}
+
+button{
+margin-top:15px;
+padding:12px 25px;
+border:none;
+border-radius:30px;
+font-size:16px;
+cursor:pointer;
+}
+
+.next{background:#ff4d88;color:white;}
+.yes{background:#ff4d88;color:white;}
+.no{background:#eee;position:relative;}
+</style>
+</head>
+
+<body>
+
+<div id="box" class="popup"></div>
+
+<script>
+let step=0;
+
+const screens=[
+`
+<h2>Hey Geet 💕</h2>
+<p>
+Ek chhota sa sawaal nahi…<br>
+ek feeling hai jo kaafi time se dil me hai 🥺
+</p>
+<button class="next" onclick="next()">Next 💌</button>
+`,
+
+`
+<h2>✨ Our Beginning</h2>
+<p>
+Dwarka Sector 21…<br>
+Christmas lights ✨ thandi hawa ❄️<br>
+aur tum —<br>
+wahin mujhe laga, yeh moment special hai.
+</p>
+<button class="next" onclick="next()">Next ➡️</button>
+`,
+
+`
+<h2>🌄 Our Journey</h2>
+<p>
+Rishikesh ki Ganga 🛕<br>
+Mussoorie ki mist 🌄<br>
+har safar tumhare saath<br>
+ghar jaisa laga.
+</p>
+<button class="next" onclick="next()">Next ➡️</button>
+`,
+
+`
+<h2>🛕 Our Blessing</h2>
+<p>
+Krishna Janmabhoomi me tumhare saath khade hokar,<br>
+sirf shanti nahi mili…<br>
+meri dua ka jawaab mila.
+</p>
+<button class="next" onclick="next()">Almost there 💖</button>
+`,
+
+`
+<h2>Geet… 💘</h2>
+<p><b>Will you be my Valentine?</b></p>
+<button class="yes" onclick="yes()">Yes 💕</button>
+<button class="no" onmouseover="moveNo()">No 🙈</button>
+`
+];
+
+function next(){
+step++;
+document.getElementById("box").innerHTML=screens[step];
+}
+
+function moveNo(){
+const btn=document.querySelector('.no');
+btn.style.left=Math.random()*120+'px';
+btn.style.top=Math.random()*80+'px';
+}
+
+function yes(){
+document.getElementById("box").innerHTML=`
+<h2>Yaaayyyy 🥹💖</h2>
+<p>
+From city streets to mountain peaks,<br>
+from holy shrines to forever…<br><br>
+Thank you for being my Valentine 💕
+</p>
+<h3>— Sunny</h3>
+`;
+}
+
+document.getElementById("box").innerHTML=screens[0];
+</script>
+
+</body>
+</html>
