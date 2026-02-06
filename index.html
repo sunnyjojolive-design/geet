@@ -1,49 +1,105 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
+<meta charset="UTF-8">
 <title>For Geet 💖</title>
+
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
+
 <style>
+*{box-sizing:border-box;}
+
 body{
 margin:0;
-font-family:'Segoe UI',sans-serif;
-background:linear-gradient(135deg,#ff9a9e,#fad0c4);
+font-family:'Poppins',sans-serif;
 height:100vh;
 display:flex;
 justify-content:center;
 align-items:center;
+background:linear-gradient(135deg,#ff9a9e,#fad0c4);
 overflow:hidden;
 }
 
+/* floating hearts */
+.heart{
+position:absolute;
+font-size:20px;
+animation:float 6s linear infinite;
+opacity:0.6;
+}
+@keyframes float{
+0%{transform:translateY(100vh) scale(0.5);opacity:0;}
+50%{opacity:0.8;}
+100%{transform:translateY(-10vh) scale(1.2);opacity:0;}
+}
+
+/* popup card */
 .popup{
-background:white;
-padding:30px;
-border-radius:25px;
-max-width:340px;
+background:rgba(255,255,255,0.85);
+backdrop-filter:blur(15px);
+padding:35px 30px;
+border-radius:28px;
+max-width:360px;
 text-align:center;
-box-shadow:0 20px 45px rgba(0,0,0,0.25);
-animation:pop 0.4s ease;
+box-shadow:0 25px 60px rgba(0,0,0,0.25);
+animation:enter 0.6s ease;
 }
 
-@keyframes pop{
-0%{transform:scale(0.5);opacity:0;}
-100%{transform:scale(1);opacity:1;}
+@keyframes enter{
+from{transform:translateY(30px) scale(0.9);opacity:0;}
+to{transform:translateY(0) scale(1);opacity:1;}
 }
 
-h2{color:#ff4d88;}
-p{color:#555; line-height:1.5;}
+h2{
+color:#ff4d88;
+margin-bottom:10px;
+}
+
+p{
+color:#444;
+line-height:1.6;
+font-size:15px;
+}
 
 button{
-margin-top:15px;
-padding:12px 25px;
+margin-top:18px;
+padding:12px 28px;
 border:none;
 border-radius:30px;
-font-size:16px;
+font-size:15px;
 cursor:pointer;
+transition:all 0.3s ease;
 }
 
-.next{background:#ff4d88;color:white;}
-.yes{background:#ff4d88;color:white;}
-.no{background:#eee;position:relative;}
+button:hover{transform:scale(1.05);}
+
+.next,.yes{
+background:linear-gradient(135deg,#ff4d88,#ff7eb3);
+color:white;
+box-shadow:0 10px 20px rgba(255,77,136,0.4);
+}
+
+.no{
+background:#eee;
+position:relative;
+}
+
+/* music button */
+.music{
+position:fixed;
+bottom:20px;
+right:20px;
+background:white;
+border-radius:50%;
+width:45px;
+height:45px;
+display:flex;
+align-items:center;
+justify-content:center;
+cursor:pointer;
+box-shadow:0 10px 25px rgba(0,0,0,0.2);
+font-size:18px;
+}
 </style>
 </head>
 
@@ -51,15 +107,23 @@ cursor:pointer;
 
 <div id="box" class="popup"></div>
 
+<div class="music" onclick="toggleMusic()">🎵</div>
+
+<audio id="bgm" loop>
+<source src="https://cdn.pixabay.com/download/audio/2022/03/15/audio_3cfa6d27db.mp3?filename=romantic-ambient-112191.mp3">
+</audio>
+
 <script>
 let step=0;
+let playing=false;
 
 const screens=[
 `
 <h2>Hey Geet 💕</h2>
 <p>
-Ek chhota sa sawaal nahi…<br>
-ek feeling hai jo kaafi time se dil me hai 🥺
+Ye sirf ek question nahi…<br>
+ek ehsaas hai jo kaafi time se<br>
+dil me chupke se rehta aaya hai 🥺
 </p>
 <button class="next" onclick="next()">Next 💌</button>
 `,
@@ -68,9 +132,11 @@ ek feeling hai jo kaafi time se dil me hai 🥺
 <h2>✨ Our Beginning</h2>
 <p>
 Dwarka Sector 21…<br>
-Christmas lights ✨ thandi hawa ❄️<br>
+Christmas lights ✨<br>
+thandi hawa ❄️<br><br>
 aur tum —<br>
-wahin mujhe laga, yeh moment special hai.
+wahin mujhe pata chal gaya,<br>
+ye moment special hai.
 </p>
 <button class="next" onclick="next()">Next ➡️</button>
 `,
@@ -79,8 +145,8 @@ wahin mujhe laga, yeh moment special hai.
 <h2>🌄 Our Journey</h2>
 <p>
 Rishikesh ki Ganga 🛕<br>
-Mussoorie ki mist 🌄<br>
-har safar tumhare saath<br>
+Mussoorie ki mist 🌄<br><br>
+har safar tumhare saath,<br>
 ghar jaisa laga.
 </p>
 <button class="next" onclick="next()">Next ➡️</button>
@@ -89,16 +155,16 @@ ghar jaisa laga.
 `
 <h2>🛕 Our Blessing</h2>
 <p>
-Krishna Janmabhoomi me tumhare saath khade hokar,<br>
-sirf shanti nahi mili…<br>
-meri dua ka jawaab mila.
+Krishna Janmabhoomi me tumhare saath,<br>
+sirf shanti nahi mili…<br><br>
+meri har dua ka jawab mila.
 </p>
 <button class="next" onclick="next()">Almost there 💖</button>
 `,
 
 `
 <h2>Geet… 💘</h2>
-<p><b>Will you be my Valentine?</b></p>
+<p style="font-size:17px;"><b>Will you be my Valentine?</b></p>
 <button class="yes" onclick="yes()">Yes 💕</button>
 <button class="no" onmouseover="moveNo()">No 🙈</button>
 `
@@ -106,7 +172,7 @@ meri dua ka jawaab mila.
 
 function next(){
 step++;
-document.getElementById("box").innerHTML=screens[step];
+box.innerHTML=screens[step];
 }
 
 function moveNo(){
@@ -116,18 +182,35 @@ btn.style.top=Math.random()*80+'px';
 }
 
 function yes(){
-document.getElementById("box").innerHTML=`
+box.innerHTML=`
 <h2>Yaaayyyy 🥹💖</h2>
 <p>
 From city streets to mountain peaks,<br>
 from holy shrines to forever…<br><br>
 Thank you for being my Valentine 💕
 </p>
-<h3>— Sunny</h3>
+<h3 style="color:#ff4d88;">— Sunny</h3>
 `;
 }
 
-document.getElementById("box").innerHTML=screens[0];
+box.innerHTML=screens[0];
+
+/* hearts */
+setInterval(()=>{
+const h=document.createElement("div");
+h.className="heart";
+h.innerText="💖";
+h.style.left=Math.random()*100+"vw";
+h.style.animationDuration=(4+Math.random()*3)+"s";
+document.body.appendChild(h);
+setTimeout(()=>h.remove(),7000);
+},600);
+
+function toggleMusic(){
+const m=document.getElementById("bgm");
+if(!playing){m.play();playing=true;}
+else{m.pause();playing=false;}
+}
 </script>
 
 </body>
